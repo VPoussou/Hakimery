@@ -14,6 +14,8 @@
 # Test de la /2
 #Ah oui et du coup le fait de tester 2 nous dispense de tester tous les multiples de 2 soit les nombres pairs
 #Allez on balance le switch
+import numpy as np
+import time
 
 def is_prime_number(number:int) -> bool:
 
@@ -25,4 +27,26 @@ def is_prime_number(number:int) -> bool:
         return False
     elif number % 10 == 0 or number % 10 == 5:
         return False
-    
+    else:
+        max_divisor = round(number**0.5) + 1 
+        for i in range(3, max_divisor, 2):
+            if i % 10 == 0 or i % 10 == 5:
+                continue
+            elif number % i == 0:
+                return False
+    return True
+
+start_time = time.time()
+print(is_prime_number(10000000207))
+end_time = time.time()
+print(end_time - start_time)
+#On commence à ramer un chouilla, quelques secondes autour de 10^6
+#A 10^7 on est bien long
+#Installer Time ou qqch comme ça pour mesurer le temps d'exécution
+#Finalement j'ai juste arrêter de générer une liste de nombres à tester c'était bête
+#Avec ce résultat ça va assez vite pour des nombres de 10^8, 10^9
+#A 10^10 ça commence à ramer sérieusement
+#On est à 400 secondes soit 6 minutes
+
+
+

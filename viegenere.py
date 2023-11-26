@@ -13,7 +13,7 @@ def vigenerization(message: str, key: str, decrypting: bool) -> str:
 
     chars = string.printable
 
-    if len(message) < len(key):
+    if len(message) > len(key):
         looping_factor = math.ceil( len(message) / len(key) )
         key = key * looping_factor
 
@@ -21,7 +21,7 @@ def vigenerization(message: str, key: str, decrypting: bool) -> str:
     for char in key:
         char_index = chars.index(char)
         if char_index > len(chars) - 1:
-            char_index = char_index % (len(chars) - 1)
+            char_index = char_index % len(chars)
         numbered_key.append(char_index)
     
     encrypted_message = []
@@ -32,13 +32,14 @@ def vigenerization(message: str, key: str, decrypting: bool) -> str:
         else:
             new_index = chars.index(char) + tooth
 
-        new_index = new_index % (len(chars) - 1)
+        new_index = new_index % len(chars)
+        print(new_index)
         encrypted_message.append(chars[new_index])
     
-    return encrypted_message
+    return ''.join(encrypted_message)
 
-message = "Sois aussi pure que la neige, sois aussi chaste que la glace, tu n'échappera pas à la calomnie"
+message = "Sois aussi pure que la neige, sois aussi chaste que la glace, tu n'echappera pas a la calomnie"
 key = "rebondir"
-print(vigenerization(message, key, False))
+encrypted_message = vigenerization(message, key, False)
 
-print(vigenerization(message, key, True))
+print(vigenerization(encrypted_message, key, True))
