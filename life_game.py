@@ -8,7 +8,7 @@ import time
 size = 40
 space_size = size**2
 living_cell_string = 'X'
-dead_cell_string = 'O'
+dead_cell_string = ' '
 
 better_space = [random.choice([living_cell_string, dead_cell_string]) for _ in range(size**2)]
 better_space = numpy.array(better_space)
@@ -22,7 +22,6 @@ def print_da_game(better_space:numpy.array) -> None:
             print()
             counter = 0
         counter += 1
-    print(better_spacer)
 
 def in_range_checker(cell_index:int) -> bool:
     # print(cell_index)
@@ -41,22 +40,24 @@ def count_adjacent_living_cells(space:numpy.array, cell_index:int) -> int:
 
 def gen_next_state(better_space_init:numpy.array) -> numpy.array:
     better_space = list(better_space_init)
+    new_space = list(better_space)
     for index, cell in enumerate(better_space):
         if count_adjacent_living_cells(better_space, index) == 3 and cell == dead_cell_string:
-            cell = living_cell_string
-        if (count_adjacent_living_cells(better_space, index) == 2 or count_adjacent_living_cells(better_space, index) == 3) and cell == living_cell_string:
-            cell = living_cell_string
+            new_space[index] = living_cell_string
+        elif (count_adjacent_living_cells(better_space, index) == 2 or count_adjacent_living_cells(better_space, index) == 3) and cell == living_cell_string:
+            new_space[index] = living_cell_string
         else:
-            cell = dead_cell_string
-    return numpy.array(better_space)
+            new_space[index] = dead_cell_string
+    return numpy.array(new_space)
 
 def play_the_game(iterations:int):
-    print_da_game(better_space)
+    global better_space
+    not_next = better_space.copy()
     for iteration in range(iterations):
-        if iteration == 0:
-            next = gen_next_state(better_space)
-        else:
-            next = gen_next_state(next)
+        print_da_game(not_next)
+        not_next = gen_next_state(not_next)
         time.sleep(0.15)
 
-play_the_game(100)
+if __name__ == '__main__':
+    play_the_game(100)
+
