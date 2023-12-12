@@ -1,0 +1,11 @@
+
+SELECT ?who ?what ?about 
+WHERE {
+    ?x rdf:type custom:Note .
+    ?x custom:author ?who .
+    ?x rdf:about ?about .
+    ?x custom:content ?what .
+
+}
+
+Assuming we have a note class in the custom: subdomain that can have an author and content and an about.
