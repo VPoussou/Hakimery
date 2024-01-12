@@ -1,4 +1,7 @@
 numpy
 streamlit
 matplotlib
-
+pillow
+PyQt5
+pyqt5-tools
+pyqt5-designer

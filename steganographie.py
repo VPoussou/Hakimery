@@ -35,14 +35,15 @@ class Steganographie:
         return pil_image
 
     def text_binary_encode(self, message:str) -> str:
-        binary_string = str(message.encode('ascii', 'replace'))
-        print('binary string' ,binary_string[:32])
+        binary_string = ''.join(format(ord(char), '08b') for char in message)
+        print('binary string', binary_string[:32])
         return binary_string
 
     def image_extract_binary(self, image:np.array) -> str:
         print('extracting binary')
         extracted_bits = np.array([str(bit & 1) for bit in image])
         print('binary extraction complete')
+        print('extracted binary',extracted_bits[:32])
         return extracted_bits
 
     def text_binary_decode(self, binary_encoded_message:str) -> str:
@@ -56,7 +57,7 @@ class Steganographie:
 
     def image_encode(self, image:np.array, binary_encoded_message:str) -> np.array:
         print('encoding')
-        encoded_image = np.array([pixel + 1 if (message_bit and not(pixel & 1)) else pixel & -2 for pixel, message_bit in zip_longest(image, binary_encoded_message, fillvalue=0)])
+        encoded_image = np.array([pixel | 1 if int(message_bit, 2) and not(pixel & 1) else pixel & -2 for pixel, message_bit in zip_longest(image, binary_encoded_message, fillvalue='0')])
         print('encoding complete')
         print(encoded_image[:32])
         return encoded_image
